@@ -3,7 +3,7 @@ import asyncio
 import httpx
 
 from channels.base import IncomingMessage
-from config import TELEGRAM_BOT_TOKEN
+from config import TELEGRAM_BOT_TOKEN, WELCOME_MESSAGE
 
 
 class TelegramChannel:
@@ -16,7 +16,7 @@ class TelegramChannel:
     async def send(self, chat_id: str, text: str) -> None:
         response = await self._client.post(
             f'{self._api}/sendMessage',
-            json={'chat_id': chat_id, 'text': text},
+            json={'chat_id': chat_id, 'text': text[:4096]},
         )
         response.raise_for_status()
 
@@ -38,6 +38,10 @@ class TelegramChannel:
                     text = message.get('text')
 
                     if text and chat.get('type') == 'private':
+                        if text.strip() == '/start':
+                            await self.send(str(chat['id']), WELCOME_MESSAGE)
+                            continue
+
                         await on_message(IncomingMessage(
                             channel=self.name,
                             chat_id=str(chat['id']),

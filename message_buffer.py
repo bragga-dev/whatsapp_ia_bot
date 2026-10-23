@@ -49,6 +49,8 @@ async def handle_debounce(message: IncomingMessage):
                 input={'input': full_message},
                 config={'configurable': {'session_id': session_id}},
             )
+            sources = sorted({d.metadata.get('source', '?') for d in result.get('context', [])})
+            log(f'Fontes do RAG para {session_id}: {sources}')
             await CHANNELS[message.channel].send(message.chat_id, result['answer'])
 
         await redis_client.delete(buffer_key)
