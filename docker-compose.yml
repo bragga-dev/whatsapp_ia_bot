@@ -3,7 +3,7 @@ services:
   evolution-api:
     container_name: evolution_api
     image: evoapicloud/evolution-api:latest
-    restart: always
+    restart: "no"
     ports:
       - "8080:8080"
     env_file:
@@ -18,7 +18,7 @@ services:
     container_name: postgres
     image: postgres:15
     command: ["postgres", "-c", "max_connections=1000"]
-    restart: always
+    restart: "no"
     ports:
       - 5432:5432
     environment:
@@ -48,7 +48,7 @@ services:
     depends_on:
       - evolution-api
       - redis
-    restart: always
+    restart: "no"
     volumes:
       - ./vectorstore_data:/app/vectorstore
       - ./rag_files:/app/rag_files

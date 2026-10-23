@@ -12,8 +12,8 @@ from config import RAG_FILES_DIR, VECTOR_STORE_PATH
 from embeddings import get_embeddings
 
 
-# coleção nova: a antiga (OpenAI, 1536 dims) é incompatível com o embedding local (384 dims)
-COLLECTION_NAME = 'rag_multilingual'
+# métrica cosseno: score de relevância = similaridade (0 a 1)
+COLLECTION_NAME = 'rag_cosine'
 ALLOWED_EXTENSIONS = {'.pdf', '.txt', '.md'}
 
 _write_lock = threading.RLock()
@@ -90,6 +90,7 @@ def get_vectorstore() -> Chroma:
     vs = Chroma(
         embedding_function=get_embeddings(),
         collection_name=COLLECTION_NAME,
+        collection_metadata={'hnsw:space': 'cosine'},
         persist_directory=VECTOR_STORE_PATH,
     )
     with _write_lock:
@@ -122,3 +123,8 @@ def reindex() -> dict:
             if path.is_file() and path.suffix.lower() in ALLOWED_EXTENSIONS
         ]
     return {'files': files, 'chunks': sum(f['chunks'] for f in files)}
+
+
+def search(query: str, k: int):
+    """Retorna [(Document, score)] com score = similaridade de cosseno."""
+    return get_vectorstore().similarity_search_with_relevance_scores(query, k=k)

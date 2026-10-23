@@ -20,6 +20,12 @@ class TelegramChannel:
         )
         response.raise_for_status()
 
+    async def typing(self, chat_id: str) -> None:
+        await self._client.post(
+            f'{self._api}/sendChatAction',
+            json={'chat_id': chat_id, 'action': 'typing'},
+        )
+
     async def poll(self, on_message) -> None:
         offset = None
         while True:

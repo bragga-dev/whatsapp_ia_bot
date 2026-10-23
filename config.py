@@ -8,14 +8,18 @@ load_dotenv()
 LLM_CHAIN = os.getenv('LLM_CHAIN', '')
 LLM_TEMPERATURE = float(os.getenv('LLM_TEMPERATURE', '0'))
 LLM_TIMEOUT = float(os.getenv('LLM_TIMEOUT', '30'))
+LLM_REASONING_EFFORT = os.getenv('LLM_REASONING_EFFORT', '')
 OLLAMA_BASE_URL = os.getenv('OLLAMA_BASE_URL', 'http://host.docker.internal:11434/v1')
 LLM_API_KEYS = {
     provider: os.getenv(f'{provider.upper()}_API_KEY')
     for provider in ('openai', 'groq', 'google', 'openrouter', 'mistral', 'cerebras')
 }
 
-AI_CONTEXTUALIZE_PROMPT = os.getenv('AI_CONTEXTUALIZE_PROMPT')
 AI_SYSTEM_PROMPT = os.getenv('AI_SYSTEM_PROMPT')
+
+HISTORY_MESSAGES = int(os.getenv('HISTORY_MESSAGES', '10'))
+RAG_TOP_K = int(os.getenv('RAG_TOP_K', '4'))
+RAG_MIN_SCORE = float(os.getenv('RAG_MIN_SCORE', '0.25'))
 
 VECTOR_STORE_PATH = os.getenv('VECTOR_STORE_PATH')
 RAG_FILES_DIR = os.getenv('RAG_FILES_DIR')

@@ -3,6 +3,7 @@ from langchain_openai import ChatOpenAI
 from config import (
     LLM_API_KEYS,
     LLM_CHAIN,
+    LLM_REASONING_EFFORT,
     LLM_TEMPERATURE,
     LLM_TIMEOUT,
     OLLAMA_BASE_URL,
@@ -39,7 +40,8 @@ def _build(provider: str, model: str):
         api_key=api_key,
         temperature=LLM_TEMPERATURE,
         timeout=LLM_TIMEOUT,
-        max_retries=0,  
+        max_retries=0,  # falhou (429/5xx/timeout) -> cai direto pro próximo
+        reasoning_effort=LLM_REASONING_EFFORT or None,
     )
 
 
