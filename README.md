@@ -1,6 +1,6 @@
 <div align="center">
 
-# WhatsApp AI Bot
+# Dual Chat IA Bot
 
 **Chatbot de atendimento para WhatsApp e Telegram com IA, RAG e deploy em um comando**
 
@@ -34,7 +34,7 @@ Funciona com qualquer provedor de API compatível com OpenAI (Groq, Google Gemin
 
 <div align="center">
 
-[![Arquitetura e fluxo do WhatsApp AI Bot](docs/architecture.png)](docs/architecture.svg)
+[![Arquitetura e fluxo do Dual Chat IA Bot](docs/architecture.png)](docs/architecture.svg)
 
 <sub>Clique na imagem para abrir a versão em SVG.</sub>
 
